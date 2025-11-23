@@ -12,8 +12,14 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 	, settings("Manicorp", "video2discord", this)
+	, ffmpeg("ffmpeg")
+	, process(nullptr)
 {
     ui->setupUi(this);
+
+#ifdef Q_OS_MAC
+	ffmpeg = QApplication::applicationDirPath() + "/../Resources/ffmpeg";
+#endif
 
 	ui->destinationFolderLineEdit->setText(settings.value("DestinationFolder", "").toString());
 
@@ -78,10 +84,19 @@ QStringList MainWindow::convertFiles(const QStringList& fileNames)
 			args << newFileName;
 
 			process = new QProcess;
-			process->setProgram("ffmpeg");
+			process->setProgram(ffmpeg);
 			process->setArguments(args);
 			process->start();
+			process->waitForStarted(-1);
 			process->waitForFinished(-1);
+			QFile log(QDir::homePath() + "/log.txt");
+			if (log.open(QFile::WriteOnly | QFile::Text))
+			{
+				QTextStream out(&log);
+				out << process->readAll() << Qt::endl;
+				out << process->exitCode() << " " << process->exitStatus();
+				log.close();
+			}
 			process->deleteLater();
 			process = nullptr;
 

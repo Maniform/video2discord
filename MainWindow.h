@@ -25,6 +25,7 @@ private:
     Ui::MainWindow *ui;
 
 	QSettings settings;
+	QString ffmpeg;
 	QFuture<QStringList> newFiles;
 	QFutureWatcher<QStringList> newFilesWatcher;
 	QProcess* process;

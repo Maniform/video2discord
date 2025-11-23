@@ -42,3 +42,6 @@
 
 # Rider Files
 .idea
+
+# MacOS Files
+.DS_Store

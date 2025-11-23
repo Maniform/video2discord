@@ -20,6 +20,16 @@ target_link_libraries(video2discord
 		Qt::Concurrent
 )
 
+if(APPLE)
+	set(FFMPEG_EXECUTABLE Resources/MacOS/ffmpeg)
+	set_source_files_properties(
+			${FFMPEG_EXECUTABLE}
+			PROPERTIES
+			MACOSX_PACKAGE_LOCATION "Resources"
+	)
+	target_sources(video2discord PRIVATE ${FFMPEG_EXECUTABLE})
+endif()
+
 include(GNUInstallDirs)
 
 install(TARGETS video2discord
