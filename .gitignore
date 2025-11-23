@@ -33,7 +33,6 @@
 *.lib
 
 # Executables
-*.exe
 *.out
 *.app
 
@@ -45,3 +44,6 @@
 
 # MacOS Files
 .DS_Store
+
+# Build Folder
+build

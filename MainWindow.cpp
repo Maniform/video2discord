@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 #ifdef Q_OS_MAC
 	ffmpeg = QApplication::applicationDirPath() + "/../Resources/ffmpeg";
+#elif defined Q_OS_WIN
+	ffmpeg = QApplication::applicationDirPath() + "/ffmpeg.exe";
 #endif
 
 	ui->destinationFolderLineEdit->setText(settings.value("DestinationFolder", "").toString());
